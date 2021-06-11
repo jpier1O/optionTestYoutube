@@ -11,6 +11,15 @@ app.use(express.json());
 
 
 app.get('/api/videos', (req, res) => {
+  if (!req.query.data || req.query.data.length === 0) {
+    let msg = {
+      success: false,
+      message: "No Result for empty string",
+    };
+
+    return res.status(404).json(msg)
+  };
+
   google.youtube('v3').search.list( {
     key: process.env.YOUTUBE_TOKEN,
     part: 'snippet',
@@ -20,10 +29,12 @@ app.get('/api/videos', (req, res) => {
     q: req.query.data,
   }).then((response) => {
     videos = response.data;
-    return res.json(videos);
+    return res.status(200).json(videos);
   }).catch((err) => console.log(err));
 });
 
 app.listen(port, () => {
   console.log(`Server listening on the port::${port}`);
 });
+
+module.exports = app;

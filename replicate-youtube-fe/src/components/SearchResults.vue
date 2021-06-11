@@ -1,8 +1,11 @@
 <template>
   <div class="container mb-3">
     <div class="d-flex mb-3">
-      <div class="mr-auto">
+      <div v-if="reformattedSearchString.length > 0" class="mr-auto">
         <h3>Search Results for "{{ reformattedSearchString }}"</h3>
+      </div>
+      <div v-else class="mr-auto">
+        <h3>No Result for Empty String</h3>
       </div>
       <div class="btn-group ml-auto" role="group">
         <button
